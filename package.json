@@ -1,0 +1,17 @@
+{
+    "name": "customQueueForPictures",
+    "version": "1.0.0",
+    "description": "listen addchild firebase to upload pictures to web api",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "node-debug -p 8200 -d 5961 index.js"
+    },
+    "author": "sebastian correa",
+    "license": "ISC",
+    "dependencies": {
+        "firebase": "2.4.2",
+        "firebase-token-generator": "2.0.0",
+        "request-promise": "2.0.1"
+    }
+}
