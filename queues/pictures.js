@@ -2,6 +2,7 @@ var rp = require('request-promise');
 var constants = require('../common/constants');
 var exception = require('../common/exception');
 var method = "POST";
+var uri = constants.baseApi + 'test/filestwo';
 module.exports = (function() {
     var root = constants.fbRoot;
     var tasksRef = root.child("pics2up").child('queue').child('tasks')
@@ -28,7 +29,7 @@ module.exports = (function() {
             .then(onAtomicInsert)
             .catch(writeError)
 
-    
+
 
         function uploadPicture() {
 
