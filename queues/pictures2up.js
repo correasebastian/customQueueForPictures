@@ -13,6 +13,7 @@ module.exports = (function() {
     return services;
 
     function startBackup() {
+        console.info('init pictures2up');
         tasksRef.on('child_added', onAdd)
     }
 
@@ -30,11 +31,13 @@ module.exports = (function() {
             .catch(writeError)
 
         var body = {
+
             "base64Data": data.base64Data,
             "name": data.timestamp + '.jpeg',
             "idFoto": key,
             "idInspeccion": data.idInspeccion,
             "placa": data.placa
+
 
         }
 
@@ -43,6 +46,9 @@ module.exports = (function() {
                 method: method,
                 uri: uri,
                 body: body,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 json: true // Automatically stringifies the body to JSON 
             };
 
