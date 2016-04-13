@@ -3,9 +3,11 @@ var constants = require('../common/constants');
 var exception = require('../common/exception');
 var method = "POST";
 var uri = constants.baseApi + 'inspecciones';
+var root = constants.fbRoot;
+var tasksRef = root.child("inspecciones2up").child('queue').child('tasks')
 module.exports = (function() {
-    var root = constants.fbRoot;
-    var tasksRef = root.child("inspecciones2up").child('queue').child('tasks')
+
+
     var services = {
         startBackup: startBackup
     };
@@ -13,6 +15,7 @@ module.exports = (function() {
     return services;
 
     function startBackup() {
+        console.info('init inspecciones2up');
         tasksRef.on('child_added', onAdd)
     }
 
@@ -23,6 +26,11 @@ module.exports = (function() {
         if (data.error) {
             return
         }
+        var body =
+            {
+                "idInspeccion": key,
+                "placa": data.placa
+            };
 
         uploadPicture()
             .then(onSend)
@@ -33,14 +41,11 @@ module.exports = (function() {
 
         function uploadPicture() {
 
-            var tokensArray = []
-            tokensArray.push(token);
             // ESTE METODO TAMBIEN FUNCIONA Y LUCE MAS ORGANIZADO
             var options = {
                 method: method,
                 uri: uri,
-                body: getJson(data.placa, tokensArray),
-                headers: pushHeaders,
+                body: body,
                 json: true // Automatically stringifies the body to JSON 
             };
 
@@ -49,10 +54,10 @@ module.exports = (function() {
 
         function onSend(response) { // resolve('ok')
 
-            console.log('ok push', response);
+            console.log('ok insert in sql ', response);
             var updatedMessage = {}
-            var main = 'notificacionesByInspeccion/' + data.idInspeccion + '/' + data.idNotification + '/info'
-            updatedMessage[main] = response;
+            var main = 'inspecciones/' + key + '/uploaded'
+            updatedMessage[main] = true;
             return root.update(updatedMessage)
         }
 
@@ -70,10 +75,4 @@ module.exports = (function() {
 
 
     }
-
-
-
-
-
-
 })();
