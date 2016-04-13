@@ -69,7 +69,8 @@ module.exports = (function() {
 
         function writeError(err) {
             console.log(err)
-            tasksRef.child(key).child('error').set({message:err.message || 'error', name:err.name || 'name'})
+            var errObj = { message: err.message || 'error', name: err.name || 'name' }
+            tasksRef.child(key).child('error').set(errObj)
 
         }
 

@@ -5,7 +5,7 @@ var method = "POST";
 var uri = constants.baseApi + 'test/filestwo';
 module.exports = (function() {
     var root = constants.fbRoot;
-    var tasksRef = root.child("pics2up").child('queue').child('tasks')
+    var tasksRef = root.child("pictures2up").child('queue').child('tasks')
     var services = {
         startBackup: startBackup
     };
@@ -29,18 +29,20 @@ module.exports = (function() {
             .then(onAtomicInsert)
             .catch(writeError)
 
+        var body = {
+            "base64Data": data.base64Data,
+            "name": data.timestamp + '.jpeg',
+            "idFoto": key,
+            "idInspeccion": data.idInspeccion,
+            "placa": data.placa
 
+        }
 
         function uploadPicture() {
-
-            var tokensArray = []
-            tokensArray.push(token);
-            // ESTE METODO TAMBIEN FUNCIONA Y LUCE MAS ORGANIZADO
             var options = {
                 method: method,
                 uri: uri,
-                body: getJson(data.placa, tokensArray),
-                headers: pushHeaders,
+                body: body,
                 json: true // Automatically stringifies the body to JSON 
             };
 
@@ -48,11 +50,10 @@ module.exports = (function() {
         }
 
         function onSend(response) { // resolve('ok')
-
-            console.log('ok push', response);
+            console.log('ok upload picture', response);
             var updatedMessage = {}
-            var main = 'notificacionesByInspeccion/' + data.idInspeccion + '/' + data.idNotification + '/info'
-            updatedMessage[main] = response;
+            var main = 'fotosByInspeccion/' + data.idInspeccion + '/' + key + '/uploaded'
+            updatedMessage[main] = true;
             return root.update(updatedMessage)
         }
 
@@ -64,7 +65,8 @@ module.exports = (function() {
 
         function writeError(err) {
             console.log(err)
-            tasksRef.child(key).child('error').set(err)
+            var errObj = { message: err.message || 'error', name: err.name || 'name' }
+            tasksRef.child(key).child('error').set(errObj)
 
         }
 
