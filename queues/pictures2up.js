@@ -18,11 +18,19 @@ module.exports = (function() {
     }
 
     function onAdd(snap) {
-        console.log(snap, snap.val())
+        // console.log(snap, snap.val())
         var key = snap.key()
         var data = snap.val();
         if (data.error) {
             return
+        }
+
+        var body = {
+            "base64Data": data.base64Data,
+            "name": data.timestamp + '.jpeg',
+            "idFoto": key,
+            "idInspeccion": data.idInspeccion,
+            "placa": data.placa
         }
 
         uploadPicture()
@@ -30,16 +38,7 @@ module.exports = (function() {
             .then(onAtomicInsert)
             .catch(writeError)
 
-        var body = {
 
-            "base64Data": data.base64Data,
-            "name": data.timestamp + '.jpeg',
-            "idFoto": key,
-            "idInspeccion": data.idInspeccion,
-            "placa": data.placa
-
-
-        }
 
         function uploadPicture() {
             var options = {
