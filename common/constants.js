@@ -4,5 +4,5 @@ var fbSecret = 'tpA8HFIZg6DUvt0wxUcZvH6NaKpGbFE7pt253UB2';
 module.exports = {
     fbRoot: fbRoot,    
     fbSecret:fbSecret,
-    baseApi: "http://localhost:52154/api/"
+    baseApi: "http://localhost:58472/api/"
 };

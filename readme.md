@@ -7,3 +7,6 @@ instalar node foreman
 
 nf start
 
+#cSharp date from unix
+https://dzone.com/articles/converting-tofrom-unix
+

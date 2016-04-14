@@ -4,8 +4,9 @@ var tokenGenerator = new FirebaseTokenGenerator(constants.fbSecret);
 // var tokenGenerator = new FirebaseTokenGenerator(process.env.FBSECRET);
 
 var token = tokenGenerator.createToken({
-    uid: "nodeServerQueueFotos"
-});
+    uid: "nodeServerQueueFotos"}, {
+        admin: true
+    });
 
 function authWithToken() {
     return new Promise(function(resolve, reject) {

@@ -2,8 +2,10 @@ var rp = require('request-promise');
 var constants = require('../common/constants');
 var exception = require('../common/exception');
 var method = "POST";
-var uri = constants.baseApi + 'test/filestwo';
-module.exports = (function() {
+// var uri = constants.baseApi + 'test/filestwo';
+var uri = constants.baseApi + 'uploads';
+
+module.exports = (function () {
     var root = constants.fbRoot;
     var tasksRef = root.child("pictures2up").child('queue').child('tasks')
     var services = {
@@ -57,8 +59,11 @@ module.exports = (function() {
         function onSend(response) { // resolve('ok')
             console.log('ok upload picture', response);
             var updatedMessage = {}
-            var main = 'fotosByInspeccion/' + data.idInspeccion + '/' + key + '/uploaded'
-            updatedMessage[main] = true;
+            var mainPath = 'fotosByInspeccion/' + data.idInspeccion + '/' + key + '/';
+            var uploaded = mainPath + 'uploaded';
+            var path = mainPath + 'path';
+            updatedMessage[uploaded] = true;
+            updatedMessage[path] = response.path;
             return root.update(updatedMessage)
         }
 
