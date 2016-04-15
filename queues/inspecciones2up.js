@@ -20,7 +20,7 @@ module.exports = (function() {
     }
 
     function onAdd(snap) {
-        console.log(snap, snap.val())
+        // console.log(snap, snap.val())
         var key = snap.key()
         var data = snap.val();
         if (data.error) {
@@ -29,7 +29,8 @@ module.exports = (function() {
         var body =
             {
                 "idInspeccion": key,
-                "placa": data.placa
+                "placa": data.placa,
+                "uid": data.createdBy || ''
             };
 
         uploadPicture()

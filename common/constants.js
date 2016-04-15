@@ -5,4 +5,6 @@ module.exports = {
     fbRoot: fbRoot,    
     fbSecret:fbSecret,
     baseApi: "http://localhost:58472/api/"
+    // baseApi: "http://190.145.39.139/online/api/"
+    
 };
